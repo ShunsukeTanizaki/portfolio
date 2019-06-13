@@ -16,6 +16,7 @@ if (  isset($_POST["send"] ) ===  true ) {
         $fp = fopen( "data.txt" ,"a" );
         fwrite( $fp ,  $name."\t".$comment."\n");
         $message ="書き込みに成功しました。";
+        // array_change_key_case
     }
  
 }

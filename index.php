@@ -1,60 +1,68 @@
 <?php
+//DB接続情報
+$dsn      = "mysql:host=localhost; dbname=keijiban";
+$user     = "root";
+$password = "root";
 
-$err_msg1 = "";
-$err_msg2 = "";
-$message ="";
-$name = ( isset( $_POST["name"] ) === true ) ?$_POST["name"]: "";
-$comment  = ( isset( $_POST["comment"] )  === true ) ?  trim($_POST["comment"])  : "";
- 
-//投稿がある場合のみ処理を行う
-if (  isset($_POST["send"] ) ===  true ) {
-    if ( $name   === "" ) $err_msg1 = "名前を入力してください"; 
- 
-    if ( $comment  === "" )  $err_msg2 = "コメントを入力してください";
- 
-    if( $err_msg1 === "" && $err_msg2 ==="" ){
-        $fp = fopen( "data.txt" ,"a" );
-        fwrite( $fp ,  $name."\t".$comment."\n");
-        $message ="書き込みに成功しました。";
-        // array_change_key_case
-    }
- 
+$id = 3;    //プレースホルダーの値を設定
+
+//try-catch
+try {
+  //DBへの接続を表すPDOインスタンスを生成
+  $pdo = new PDO($dsn, $name, $password );
+  //SQL文　:は、名前付きプレースホルダ
+  $sql = "SELECT * from syain where id = :id";
+  //プリペイドステートメントを作成
+  $stmt = $pdo->prepare($sql);
+  //プレースホルダと変数をバインド
+  $stmt->bindParam(":id",$id);
+  $stmt->execute();
+
+  //データを取得
+  $rec = $stmt->fetch(PDO::FETCH_ASSOC);
+
+  //接続を閉じる
+  //$pdo = null:  スクリプト終了時に自動で切断されるので不要
+} catch(PDOException $e) {
+  //UTF8に文字エンコーディングを変換する
+  exit(mb_convert_encoding($s->getMessage(), 'UTF-8', 'SJIS-win'));
 }
- 
-$fp = fopen("data.txt","r");
- 
-$dataArr= array();
-while( $res = fgets( $fp)){
-    $tmp = explode("\t",$res);
-    $arr = array(
-        "name"=>$tmp[0],
-        "comment"=>$tmp[1]
-    );
-    $dataArr[]= $arr;
-} 
- 
- 
+
+function escsape1($str)
+{
+  return htmlspecialchars($str, ENT_QUOTES,'UTF-8');
+}
+
 ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+
+<!DOCTYPE htnl>
 <html lang="ja">
-    <head>
-        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-        <title>サンプル</title>
-    </head>
-    <body>
-        <?php echo $message; ?>
-        <form method="post" action="">
-        名前：<input type="text" name="name" value="<?php echo $name; ?>" >
-            <?php echo $err_msg1; ?><br>
-            紹介文：<textarea  name="comment" rows="4" cols="40"><?php echo $comment; ?></textarea>
-            <?php echo $err_msg2; ?><br>
-<br>
-          <input type="submit" name="send" value="クリック" >
-        </form>
-        <dl>
-         <?php foreach( $dataArr as $data ):?>
-         <p><span><?php echo $data["name"]; ?></span>:<span><?php echo $data["comment"]; ?></span></p>
-        <?php endforeach;?>
-</dl>
-    </body>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="css/style.css" type="text/css"media="all">
+<title>サンプル</title>
+</head>
+<body>
+　<section>
+　<h2>新規投稿</h2>
+　 <?php echo $message; ?>
+　  <form method="post" action="">
+　  名前：<input type="text" name="name" value="<?php echo $name; ?>" >
+　  <?php echo $err_msg1; ?><br>
+　  紹介文：<textarea name="Introduction" rows="10" cols="100" wrap="hard" placeholder="紹介文をお書き下さい"><?php echo $comment; ?></textarea>
+　  <?php echo $err_msg2; ?><br>
+　<input type="submit" name="" value="クリック" >
+　 </form>
+　</section>
+<section>
+  <h2>投稿画面</h2>
+  <p>投稿はまだありません</p>
+　  <dl>
+　    <?php foreach( $dataArr as $data ):?>
+　    <p><span><?php echo $data["name"]; ?></span>:<span><?php echo $data["Introduction"]; ?></span></p>
+　    <?php endforeach;?>
+　  </dl>
+</section>
+</body>
 </html>

@@ -1,47 +1,20 @@
 <?php
 //DB接続情報
-$dsn      = "mysql:host=localhost; dbname=keijiban";
-$user     = "root";
-$password = "root";
 
-$id = 3;    //プレースホルダーの値を設定
+$user     = 'testuser';
+$password = 'pw4testuser';
+$dbName   = 'keijiban';
+$host     = 'localhost';
 
-//try-catch
-try {
-  //DBへの接続を表すPDOインスタンスを生成
-  $pdo = new PDO($dsn, $name, $password );
-  //SQL文　:は、名前付きプレースホルダ
-  $sql = "SELECT * from syain where id = :id";
-  //プリペイドステートメントを作成
-  $stmt = $pdo->prepare($sql);
-  //プレースホルダと変数をバインド
-  $stmt->bindParam(":id",$id);
-  $stmt->execute();
-
-  //データを取得
-  $rec = $stmt->fetch(PDO::FETCH_ASSOC);
-
-  //接続を閉じる
-  //$pdo = null:  スクリプト終了時に自動で切断されるので不要
-} catch(PDOException $e) {
-  //UTF8に文字エンコーディングを変換する
-  exit(mb_convert_encoding($s->getMessage(), 'UTF-8', 'SJIS-win'));
-}
-
-function escsape1($str)
-{
-  return htmlspecialchars($str, ENT_QUOTES,'UTF-8');
-}
-
+$dsn      = "mysql:host={$host};dbname={$dbName};charset=utf8;";
 ?>
-
 
 <!DOCTYPE htnl>
 <html lang="ja">
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" href="css/style.css" type="text/css"media="all">
-<title>サンプル</title>
+<title>掲示板</title>
 </head>
 <body>
 　<section>
@@ -64,5 +37,35 @@ function escsape1($str)
 　    <?php endforeach;?>
 　  </dl>
 </section>
+
+
+<div>
+
+<?php
+//MySQLデータベースに接続する
+try {
+  //DBへの接続を表すPDOインスタンスを生成
+  $pdo = new PDO($dsn, $user, $password);
+  //プリペアドステートメントのエミュレーションを無効にする
+  $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARS, false);
+  //例外がスローされる設定にする
+  $pdo->setAttrebute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+  echo "データベース{$dbName}に接続しました。","<br>";
+
+  $sql = "SELECT * FROM post";
+  $stm->excuse();
+  //接続を解除する
+  $pdo = NULL;
+
+} catch(PDOException $e) {
+    echo '<span class="errer">エラーがありました。</span><br>';
+  //   echo $e->getMessage();
+  // exit();
+}
+
+?>
+</div>
 </body>
 </html>
+
+

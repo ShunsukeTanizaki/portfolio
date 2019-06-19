@@ -1,3 +1,20 @@
+<?php
+if (!empty($_POST)) {
+  if($_POST['message'] !== '') {
+    $message = $db->prepare('INSERT INTO posts SET member_id=?, message=?, created=NOW()');
+    $message->execute(array(
+      $member['id'],
+      $_POST['message']
+    ));
+
+    header('Location: index.php');
+    exit();
+  }
+}
+
+$posts = $db->query('SELECT m.name,m.picture,p.* FROM members m, posts p WHERE m.id=p.member_id ORDER BY p.created DESC');
+
+?>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -31,21 +48,23 @@
       </div>
     </form>
 
+<?php foreach ($posts as $post): ?>
     <div class="msg">
-    <img src="member_picture" width="48" height="48" alt="" />
-    <!-- <p><span class="name">（）</span>[<a href="index.php?res=">Re</a>]</p>
-    <p class="day"><a href="view.php?id="></a>
+    <img src="member_picture/<?php print (htmlspecialchars($post['picture'], ENT_QUOTES)); ?>" width="48" height="48" alt="<?php print (htmlspecialchars($post['name'], ENT_QUOTES)); ?>" />
+    <p><?php print (htmlspecialchars($post['message'], ENT_QUOTES)); ?><span class="name">（<?php print (htmlspecialchars($post['name'], ENT_QUOTES)); ?>）</span>[<a href="index.php?res=">Re</a>]</p>
+    <p class="day"><a href="view.php?id="><?php print (htmlspecialchars($post['created'], ENT_QUOTES)); ?></a>
 <a href="view.php?id=">
 返信元のメッセージ</a>
 [<a href="delete.php?id="
-style="color: #F33;">削除</a>] -->
+style="color: #F33;">削除</a>]
     </p>
     </div>
+<?php endforeach; ?>
 
-<!-- <ul class="paging">
+<ul class="paging">
 <li><a href="index.php?page=">前のページへ</a></li>
 <li><a href="index.php?page=">次のページへ</a></li>
-</ul> -->
+</ul>
   </div>
 </div>
 </body>

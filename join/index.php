@@ -2,6 +2,8 @@
 session_start();
 require('../dbconnect.php');
 
+// $error['name'] = '';
+
 if (!empty($_POST)) {
   if ($_POST['name'] === '') {
       $error['name'] = 'blank';
@@ -44,9 +46,13 @@ if (!empty($_POST)) {
   }
 }
 
-if ($_REQUEST['action'] == 'rewrite' && isset($_SESSION['join'])); {
-  $_POST = $_SESSION['join'];
+if (empty($_POST['name'])) {
+  $valueName = $_POST['name'];
 }
+
+// if ($_REQUEST['action'] == 'rewrite' && isset($_SESSION['join'])); {
+  // $_POST = $_SESSION['join'];
+// }
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -70,8 +76,8 @@ if ($_REQUEST['action'] == 'rewrite' && isset($_SESSION['join'])); {
   <dl>
     <dt>ニックネーム<span class="required">必須</span></dt>
     <dd>
-      <input type="text" name="name" size="35" maxlength="255" value="<?php print (htmlspecialchars($_POST['name'],ENT_QUOTES)); ?>" />
-      <?php if ($error['name'] === 'blank'): ?>
+      <input type="text" name="name" size="35" maxlength="255" value="$valueName" />
+      <?php if (isset($error['name']) && $error['name'] === 'blank'): ?>
       <p class="error">*名前を入力してください</p>
       <?php endif; ?>
     </dd>

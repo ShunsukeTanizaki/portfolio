@@ -14,7 +14,7 @@ if (!empty($_POST)) {
        sha1($_SESSION['join']['password']),
        $_SESSION['join']['image']
   ));
-  unset($_SESSION['join']);
+  unset($_SESSION['join']); //セッション変数を空にする
 
   header('Location: thanks.php');
   exit();
@@ -28,7 +28,7 @@ if (!empty($_POST)) {
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>会員登録</title>
 
-  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="s../style.cs" />
 </head>
 <body>
 <div id="wrap">
@@ -56,7 +56,7 @@ if (!empty($_POST)) {
     <dt>写真など</dt>
     <dd>
     <?php if ($_SESSION['join']['image'] !== ''): ?>
-    <img src="../member_picture/<?php print(htmlspecialchars ($_SESSION['join']['image'], ENT_QUOTES)); ?> " alt="">
+      <img src="../member_picture/<?php print(htmlspecialchars ($_SESSION['join']['image'], ENT_QUOTES)); ?> " alt="">
     <?php endif; ?>
     </dd>
   </dl>

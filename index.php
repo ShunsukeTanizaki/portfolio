@@ -2,7 +2,7 @@
 session_start();
 require('dbconnect.php');
 
-if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time()) { //60分
+if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time()) { //セッション　60分
   $_SESSION['time'] = time();
 
   $members = $db->prepare('SELECT * FROM members WHERE id=?');
@@ -21,7 +21,7 @@ if (!empty($_POST)) {
       $_POST['message']
     ));
 
-    header('Location: index.php');
+    header('Location: index.php'); //再読み込み重複防止処理
     exit();
   }
 }
@@ -34,7 +34,7 @@ $posts = $db->query('SELECT m.name, m.picture, p.* FROM members m, posts p WHERE
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>ひとこと掲示板</title>
+	<title>掲示板</title>
 
 	<link rel="stylesheet" href="style.css" />
 </head>
@@ -48,7 +48,7 @@ $posts = $db->query('SELECT m.name, m.picture, p.* FROM members m, posts p WHERE
     <!-- <div style="text-align: right"><a href="logout.php">ログアウト</a></div> -->
     <form action="" method="post">
       <dl>
-        <dt><?php print(htmlspecialchars($member['name'], ENT_QUOTES)); ?>さん、メッセージをどうぞ</dt>
+        <dt><?php print(htmlspecialchars($member['name'], ENT_QUOTES)); ?>さん、メッセージを入力してください</dt>
         <dd>
           <textarea name="message" cols="50" rows="5"></textarea>
           <input type="hidden" name="reply_post_id" value="" />

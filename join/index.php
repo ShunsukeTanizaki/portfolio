@@ -28,7 +28,7 @@ if (!empty($_POST)) {
 
   //アカウントの重複チェク
   if (empty($error)) {
-    $member = $db->prepare('SELECT COUNT(*) AS cut FROM members WHERE email=?');
+    $member = $db->prepare('SELECT COUNT(*) AS cnt FROM members WHERE email=?');
     $member->execute(array($_POST['email']));
     $record = $member->fetch();
     if ($record['cnt'] > 0) {
@@ -37,10 +37,10 @@ if (!empty($_POST)) {
   }
 
   if (empty($error)) {
-    $imge = date('YmdHis') . $_FILES['image']['name'];
-    move_uploaded_file($_FILES['image']['tmp_name'],'../member_picture/' . $imge);
+    $image = date('YmdHis') . $_FILES['image']['name'];
+    move_uploaded_file($_FILES['image']['tmp_name'],'../member_picture/' . $image);
     $_SESSION['join'] = $_POST;
-    $_SESSION['join']['image'] = $imge;
+    $_SESSION['join']['image'] = $image;
     header('Location: check.php');
     exit();
   }
@@ -50,9 +50,9 @@ if (empty($_POST['name']) ) {
   $valueName = $_POST['name'];
 }
 
-// if ($_REQUEST['action'] == 'rewrite' && isset($_SESSION['join'])); {
-  // $_POST = $_SESSION['join'];
-// }
+if ($_REQUEST['action'] == 'rewrite' && isset($_SESSION['join'])) {
+  $_POST = $_SESSION['join'];
+}
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -72,11 +72,11 @@ if (empty($_POST['name']) ) {
 
 <div id="content">
 <p>次のフォームに必要事項をご記入ください。</p>
-<form action="" method="post" enctype="multipart/form-data">
+<form action="" method="post" enctype="multipart/form-data"> 
   <dl>
     <dt>ニックネーム<span class="required">必須</span></dt>
     <dd>
-      <input type="text" name="name" size="35" maxlength="255" value="$valueName" />
+      <input type="text" name="name" size="35" maxlength="255" value="<?php print (htmlspecialchars($_POST['name'],ENT_QUOTES)); ?>" />
       <?php if (isset($error['name']) && $error['name'] === 'blank'): ?>
       <p class="error">*名前を入力してください</p>
       <?php endif; ?>

@@ -46,7 +46,7 @@ if (!empty($_POST)) {
   }
 }
 
-if (empty($_POST['name'])) {
+if (empty($_POST['name']) ) {
   $valueName = $_POST['name'];
 }
 

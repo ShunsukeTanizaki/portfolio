@@ -74,7 +74,7 @@ if ($_REQUEST['action'] == 'rewrite' && isset($_SESSION['join'])) {
 <p>次のフォームに必要事項をご記入ください。</p>
 <form action="" method="post" enctype="multipart/form-data"> 
   <dl>
-    <dt>ニックネーム<span class="required">必須</span></dt>
+    <dt>名前<span class="required">必須</span></dt>
     <dd>
       <input type="text" name="name" size="35" maxlength="255" value="<?php print (htmlspecialchars($_POST['name'],ENT_QUOTES)); ?>" />
       <?php if (isset($error['name']) && $error['name'] === 'blank'): ?>
@@ -100,7 +100,7 @@ if ($_REQUEST['action'] == 'rewrite' && isset($_SESSION['join'])) {
       <p class="error">*パスワードを入力してください</p>
       <?php endif; ?>
     </dd>
-    <dt>写真など</dt>
+    <dt>画像</dt>
     <dd>
       <input type="file" name="image" size="35" value="test" />
       <?php if ($error['image'] === 'type'): ?>

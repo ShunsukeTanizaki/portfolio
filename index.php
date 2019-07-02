@@ -8,8 +8,8 @@ if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time()) { //セッシ�
   $members = $db->prepare('SELECT * FROM members WHERE id=?');
   $members->execute(array($_SESSION['id']));
   $member = $members->fetch();
-} else {
-  header('Location: login.php');
+// } else {
+//   header('Location: login.php');
   exit();
 }
 
@@ -60,7 +60,7 @@ if (isset($_REQUEST['res'])) {
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>掲示板</title>
+	<title>技術紹介の場</title>
 
 	<link rel="stylesheet" href="style.css" />
 </head>
@@ -69,12 +69,15 @@ if (isset($_REQUEST['res'])) {
 <div id="wrap">
   <div id="head">
     <h1>掲示板</h1>
+
+    <div style="text-align: right"><a href="login.php">ログイン</a></div>
+    <div style="text-align: right"><a href="logout.php">ログアウト</a></div>
   </div>
   <div id="content">
-    <div style="text-align: right"><a href="logout.php">ログアウト</a></div>
+
     <form action="" method="post">
       <dl>
-        <dt><?php print(htmlspecialchars($member['name'], ENT_QUOTES)); ?>さん、メッセージを入力してください</dt>
+        <dt><?php print(htmlspecialchars($member['name']. "", ENT_QUOTES)); ?></dt>
         <dd>
           <textarea name="message" cols="50" rows="5"><?php print (htmlspecialchars($message, ENT_QUOTES)); ?></textarea>
           <input type="hidden" name="reply_post_id" value="<?php print(htmlspecialchars($_REQUEST['res'], ENT_QUOTES)); ?>" />

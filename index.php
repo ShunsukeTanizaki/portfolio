@@ -8,8 +8,8 @@ if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time()) { //セッシ�
   $members = $db->prepare('SELECT * FROM members WHERE id=?');
   $members->execute(array($_SESSION['id']));
   $member = $members->fetch();
-// } else {
-//   header('Location: login.php');
+} else {
+  header('Location: login.php');
   exit();
 }
 
@@ -57,22 +57,29 @@ if (isset($_REQUEST['res'])) {
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>技術紹介の場</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>技術紹介の場</title>
 
-	<link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
-<div id="wrap">
-  <div id="head">
-    <h1>掲示板</h1>
+<header>
+  <div class="container">
+    <div class="header_left">
+      <h1>タイトル</h1>
+    </div>
+    <div class="header_right">
+      <a href="login.php">ログイン</a>
+      <!-- <div style="text-align: right"><a href="logout.php">ログアウト</a></div> -->
+    </div>
+  </div>  
+</header>
 
-    <div style="text-align: right"><a href="login.php">ログイン</a></div>
-    <div style="text-align: right"><a href="logout.php">ログアウト</a></div>
-  </div>
+
+  
   <div id="content">
 
     <form action="" method="post">

@@ -67,35 +67,67 @@ if (isset($_REQUEST['res'])) {
 
 <body>
 <header>
-  <div class="container">
+  <div class="header_container">
+    <div class="header_logo">
+      <a href="">タイトル</a>
+    </div>
     <div class="header_left">
-      <h1>タイトル</h1>
+      <div class="header_search">
+        <form action="">
+          <input type="hidden" name="src" value="search">
+          <label for="header_search">検索</label>
+        </form>
+      </div>
     </div>
     <div class="header_right">
-      <a href="login.php">ログイン</a>
-      <!-- <div style="text-align: right"><a href="logout.php">ログアウト</a></div> -->
+      <div class="post">
+      <a href="contributor_message.php">投稿する</a>
+        <p><input type="submit" value="投稿する" /></p>
+      </div>
+      <div class="login">
+        <a href="login.php">ログイン</a>
+      </div>
     </div>
-  </div>  
+      <!-- <div style="text-align: right"><a href="logout.php">ログアウト</a></div> -->
+  </div>
 </header>
 
 
-  
   <div id="content">
 
     <form action="" method="post">
       <dl>
-        <dt><?php print(htmlspecialchars($member['name']. "", ENT_QUOTES)); ?></dt>
-        <dd>
-          <textarea name="message" cols="50" rows="5"><?php print (htmlspecialchars($message, ENT_QUOTES)); ?></textarea>
+        <dt>紹介者　<?php print(htmlspecialchars($member['name']. "", ENT_QUOTES)); ?></dt>
+        
+          <div class="presentation">
+
+          </div>
+          <div class="contributor_message">
+
+          </div>
           <input type="hidden" name="reply_post_id" value="<?php print(htmlspecialchars($_REQUEST['res'], ENT_QUOTES)); ?>" />
         </dd>
       </dl>
-      <div>
-        <p>
-          <input type="submit" value="投稿する" />
-        </p>
-      </div>
     </form>
+
+  <p>返事を書く</p>
+  <form action="" method="post">
+    <dl>
+
+      <dt>
+        <img src="member_picture/<?php print(htmlspecialchars($member['picture'], ENT_QUOTES)); ?>"width="60" height="60" alt="<?php print(htmlspecialchars($post['name'], ENT_QUOTES)); ?>" />
+        <?php print(htmlspecialchars($member['name']. "", ENT_QUOTES)); ?></dt>
+      <dd>
+        <textarea name="message" cols="50" rows="5"><?php print (htmlspecialchars($message, ENT_QUOTES)); ?></textarea>
+        <input type="hidden" name="reply_post_id" value="<?php print(htmlspecialchars($_REQUEST['res'], ENT_QUOTES)); ?>" />
+      </dd>
+    </dl>
+    <div>
+      <p>
+        <input type="submit" value="投稿する" />
+      </p>
+    </div>
+  </form>
 
   <?php foreach ($posts as $post): ?>
     <div class="msg">

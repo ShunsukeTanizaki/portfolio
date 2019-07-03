@@ -109,7 +109,6 @@ if ($_REQUEST['action'] == 'rewrite' && isset($_SESSION['join'])) {
       <?php if (!empty($error)): ?>
       <p class="error">*画像を再指定してください</p>
       <?php endif; ?>
-
     </dd>
   </dl>
   <div><input type="submit" value="入力内容を確認する" /></div>
